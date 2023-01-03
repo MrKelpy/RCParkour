@@ -1,0 +1,48 @@
+name: RCParkour
+version: 1.0
+description: This plugin allows the user to create parkour courses with a simple command-based system.
+author: MrKelpy
+main: com.mrkelpy.rcparkour.RCParkour
+api-version: 1.14
+depend: [WorldGuard, WorldEdit]
+
+commands:
+
+  parkour:
+    usage: /parkour <command>
+    description: Master command.
+
+  parkour help:
+    usage: /parkour help
+    description: Displays the help menu.
+    permission: parkour.help
+
+  parkour entrypoint:
+    usage: /parkour entrypoint <name>
+    description: Adds an entry point to a given course.
+    permission: parkour.entrypoint.create
+
+  parkour checkpoint:
+    usage: /parkour checkpoint <name>
+    description: Adds a checkpoint to a given course.
+    permission: parkour.checkpoint.create
+
+  parkour endpoint:
+    usage: /parkour endpoint <name>
+    description: Adds an end point to a given course.
+    permission: parkour.endpoint.create
+
+  parkour back:
+    usage: /parkour back
+    description: Teleports you back to the last checkpoint you passed.
+    permission: parkour.back
+
+  parkour reset:
+    usage: /parkour reset
+    description: Resets your progress on a course.
+    permission: parkour.reset
+
+  parkour exit:
+    usage: /parkour exit
+    description: Exits a course.
+    permission: parkour.exit

@@ -1,0 +1,2 @@
+// MongoDB URI. Format reminder > mongodb://[username:password]@[host:port]
+database-uri: mongodb://localhost:27017
