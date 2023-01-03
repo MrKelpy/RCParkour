@@ -1,10 +1,15 @@
 package com.mrkelpy.rcparkour.commons.scoreboards;
 
+import com.mrkelpy.rcparkour.commons.database.TimingsDocument;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * This class implements a very convenient object that can be used to interact with
@@ -38,20 +43,71 @@ public class TopTimingsLeaderboard {
 
     /**
      * Adds a score into the scoreboard.
+     *
      * @param name           The name of the player.
      * @param completionTime The time it took the player to complete the course.
+     * @return Whether the entry was added or not.
      */
     public void addEntry(String name, String completionTime) {
 
-        int scoreIndex = this.board.getEntries().size() + 1;
-        objective.getScore("§c" + name + ": §a" + completionTime).setScore(scoreIndex);
+        // Check if the entry is already in the scoreboard, if so, return.
+        String entryString = name + " > " + completionTime;
+        if (board.getEntries().contains(entryString)) return;
+
+        // Add the entry to the scoreboard.
+        objective.getScore(entryString).setScore(0);
+        board.getEntries().forEach(entry -> objective.getScore(entry).setScore(objective.getScore(entry).getScore() + 1));
+    }
+
+    /**
+     * Adds a list of entries into the scoreboard.
+     *
+     * @param entries The list of entries to add.
+     */
+    public void addEntries(List<TimingsDocument> entries) {
+
+        // Clear the scoreboard if the list of entries is empty
+        if (entries.isEmpty()) {
+            this.clearLeaderboard();
+            return;
+        }
+
+        // If there are no new entries, return.
+        if (entries.stream().allMatch(entry -> board.getEntries().stream().anyMatch(string -> string.equals("§d" + entry.getPlayer().getName() + " > §a" + entry.getFormattedTime())))) return;
+
+        // If there are new entries, clear the scoreboard and add the new entries.
+        this.clearLeaderboard();
+        entries.forEach(entry -> this.addEntry("§d" + entry.getPlayer().getName(), "§a" + entry.getFormattedTime()));
     }
 
     /**
      * Adds a blank line into the scoreboard.
      */
     public void addBlank() {
-        this.addEntry(" ", " ");
+        objective.getScore(" ").setScore(0);
+        board.getEntries().forEach(entry -> objective.getScore(entry).setScore(objective.getScore(entry).getScore() + 1));
+    }
+
+    /**
+     * Re-adds the last few lines of the scoreboard, corresponding to the personal best time of the player.
+     * @param completionTime The time it took the player to complete the course.
+     */
+    public void addPersonalBest(String completionTime) {
+
+        // If the exact same personal best is already in the scoreboard, then return.
+        if (board.getEntries().contains("§bPersonal Best§a" + " > " + completionTime)) return;
+
+        // Clear the personal best score and the blank line if they exist.
+        List<String> entries = board.getEntries().stream().filter(entry -> entry.contains("Personal Best")).collect(Collectors.toList());
+
+        if (!entries.isEmpty()) {
+            board.resetScores(entries.get(0));
+            board.resetScores(" ");
+        }
+
+        // Re-add them with the updated info
+        this.addBlank();
+        this.addEntry("§bPersonal Best§a", completionTime);
     }
 
     /**

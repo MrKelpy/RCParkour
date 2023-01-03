@@ -1,15 +1,14 @@
 com\mrkelpy\rcparkour\commons\enums\CommandRegistry.class
+com\mrkelpy\rcparkour\commons\scoreboards\TopTimingsLeaderboard.class
 com\mrkelpy\rcparkour\commons\utils\CourseUtils.class
 com\mrkelpy\rcparkour\commons\commands\ICommandImplementations.class
 com\mrkelpy\rcparkour\commons\configuration\UUIDCache.class
 com\mrkelpy\rcparkour\commons\utils\ItemStackUtils.class
-com\mrkelpy\rcparkour\commons\utils\SerializationUtils.class
 com\mrkelpy\rcparkour\commons\enums\PluginConstants.class
 com\mrkelpy\rcparkour\commons\gui\ConfirmationGUI.class
 com\mrkelpy\rcparkour\commons\gui\PagedGUI.class
 com\mrkelpy\rcparkour\commons\events\OnPlayerJoin.class
 com\mrkelpy\rcparkour\commons\commands\PluginCommandHandler.class
-com\mrkelpy\rcparkour\commons\events\OnRegionEnter.class
 com\mrkelpy\rcparkour\commons\configuration\PluginConfigs.class
 com\mrkelpy\rcparkour\commons\events\PressurePlateEvents.class
 com\mrkelpy\rcparkour\commons\configuration\InternalConfigs.class
@@ -19,3 +18,5 @@ com\mrkelpy\rcparkour\commons\enums\CompatibilityMode.class
 com\mrkelpy\rcparkour\commons\utils\FileUtils.class
 com\mrkelpy\rcparkour\commons\database\TimingsDocument.class
 com\mrkelpy\rcparkour\commons\utils\GUIUtils.class
+com\mrkelpy\rcparkour\commons\events\OnRegionUpdate.class
+com\mrkelpy\rcparkour\commons\hooks\WorldGuardHook.class

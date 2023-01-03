@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class
+ * This class adds events that are triggered when a player moves in regions.
  */
 public class OnRegionUpdate implements Listener {
 
@@ -41,6 +41,7 @@ public class OnRegionUpdate implements Listener {
 
         // If the player is at least in one region, call OnRegionUpdate.
         if ((long) regions.getRegions().size() > 0) onRegionUpdate(event.getPlayer(), regions);
+        else TopTimingsLeaderboard.INSTANCE.hideFromPlayer(event.getPlayer());
     }
 
     /**
@@ -66,13 +67,11 @@ public class OnRegionUpdate implements Listener {
         List<TimingsDocument> completionTimes = ParkourCourseDB.getLeaderboard();
 
         // Clear the scoreboard and add the top 10 completion times.
-        leaderboard.clearLeaderboard();
-        completionTimes.forEach(timing -> leaderboard.addEntry("§d" + timing.getPlayer().getName(), "§a" + timing.getFormattedTime()));
-        leaderboard.addBlank();
+        leaderboard.addEntries(completionTimes);
 
         // Add the player's own completion time.
         DBObject playerQuery = ParkourCourseDB.DATABASE.getCollection("timings").find(new BasicDBObject("userUUID", player.getUniqueId().toString())).one();
-        leaderboard.addEntry("§bPersonal Best: §a", playerQuery != null ? new TimingsDocument(playerQuery).getFormattedTime() : "N/A");
+        leaderboard.addPersonalBest(playerQuery != null ? new TimingsDocument(playerQuery).getFormattedTime() : "N/A");
         leaderboard.showToPlayer(player);
     }
 

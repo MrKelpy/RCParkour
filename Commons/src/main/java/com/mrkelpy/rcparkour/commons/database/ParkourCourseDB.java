@@ -68,7 +68,7 @@ public class ParkourCourseDB {
     public static List<TimingsDocument> getLeaderboard() {
 
         // Gets all the Documents in the 'timings' collection, and sorts them in descending order, limiting the queries to the top 10.
-        DBCursor cursor = DATABASE.getCollection("timings").find().sort(new BasicDBObject("completionTime", -1)).limit(10);
+        DBCursor cursor = DATABASE.getCollection("timings").find().sort(new BasicDBObject("completionTime", 1)).limit(10);
         List<TimingsDocument> leaderboard = new ArrayList<>();
 
         // Iterates through the cursor and adds each document to the leaderboard in the form of a TimingsDocument.

@@ -4,7 +4,7 @@ description: This plugin allows the user to create parkour courses with a simple
 author: MrKelpy
 main: com.mrkelpy.rcparkour.RCParkour
 api-version: 1.14
-depend: [WorldGuardHook, WorldEdit]
+depend: [WorldGuard, WorldEdit]
 
 commands:
 
