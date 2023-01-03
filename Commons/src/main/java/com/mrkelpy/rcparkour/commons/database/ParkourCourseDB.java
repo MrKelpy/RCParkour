@@ -1,9 +1,10 @@
 package com.mrkelpy.rcparkour.commons.database;
 
 import com.mongodb.*;
+import com.mongodb.client.FindIterable;
 import com.mrkelpy.rcparkour.commons.configuration.PluginConfigs;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * This class implements a database that stores any information related to the parkour courses.
@@ -11,7 +12,7 @@ import java.util.Objects;
 public class ParkourCourseDB {
 
     public static final ParkourCourseDB INSTANCE = new ParkourCourseDB();
-    private static DB DATABASE;
+    public static DB DATABASE;
 
     private ParkourCourseDB() {}
 
@@ -58,6 +59,23 @@ public class ParkourCourseDB {
         // Only update the document if the new completion time is lower than the old one.
         if ((Long) document.get("completionTime") > (Long) targetObject.get("completionTime")) return;
         DATABASE.getCollection(collectionName).update(targetObject, document);
+    }
+
+    /**
+     * Gets the top 10 leaderboard of completionTimes in the 'timings' collection.
+     * @return List(TimingsDocument) The top 10 fastest completionTimes.
+     */
+    public static List<TimingsDocument> getLeaderboard() {
+
+        // Gets all the Documents in the 'timings' collection, and sorts them in descending order, limiting the queries to the top 10.
+        DBCursor cursor = DATABASE.getCollection("timings").find().sort(new BasicDBObject("completionTime", -1)).limit(10);
+        List<TimingsDocument> leaderboard = new ArrayList<>();
+
+        // Iterates through the cursor and adds each document to the leaderboard in the form of a TimingsDocument.
+        for (DBObject object : cursor)
+            leaderboard.add(new TimingsDocument(UUID.fromString(object.get("userUUID").toString()), (Long) object.get("completionTime")));
+
+        return leaderboard;
     }
 
 }

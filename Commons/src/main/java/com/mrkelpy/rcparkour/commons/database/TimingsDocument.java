@@ -3,6 +3,7 @@ package com.mrkelpy.rcparkour.commons.database;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,11 +37,11 @@ public class TimingsDocument {
     }
 
     /**
-     * Returns a player's name by their UUID.
-     * @return The player's name
+     * Returns a player by their UUID.
+     * @return (OfflinePlayer) The player
      */
-    public String getPlayerName() {
-        return Bukkit.getOfflinePlayer(this.userUUID).getName();
+    public OfflinePlayer getPlayer() {
+        return Bukkit.getOfflinePlayer(this.userUUID);
     }
 
     /**

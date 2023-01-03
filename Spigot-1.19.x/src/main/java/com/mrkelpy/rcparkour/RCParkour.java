@@ -3,6 +3,7 @@ package com.mrkelpy.rcparkour;
 import com.mrkelpy.rcparkour.commons.commands.PluginCommandHandler;
 import com.mrkelpy.rcparkour.commons.database.ParkourCourseDB;
 import com.mrkelpy.rcparkour.commons.events.OnPlayerJoin;
+import com.mrkelpy.rcparkour.commons.events.OnRegionUpdate;
 import com.mrkelpy.rcparkour.commons.events.PressurePlateEvents;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import org.bukkit.plugin.Plugin;
@@ -17,6 +18,7 @@ public class RCParkour extends JavaPlugin {
 
         this.getServer().getPluginManager().registerEvents(new PressurePlateEvents(), this);
         this.getServer().getPluginManager().registerEvents(new OnPlayerJoin(), this);
+        this.getServer().getPluginManager().registerEvents(new OnRegionUpdate(), this);
         ParkourCourseDB.connect();
     }
 
